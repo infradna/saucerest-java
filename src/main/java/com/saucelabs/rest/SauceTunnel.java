@@ -101,6 +101,10 @@ public final class SauceTunnel {
     /**
      * Waits until the tunnel transitions into the running state, or until the specified timeout expires.
      *
+     * <p>
+     * The method returns normally both in case of time out and successful tunnel start up.
+     * Use {@link #isRunning()} to verify the result.
+     *
      * @param timeout
      *      number of milli-seconds to wait, or -1 to wait forever. Timeout is approximation and not
      *      necessarily accurately honored.

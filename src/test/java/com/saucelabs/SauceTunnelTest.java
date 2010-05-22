@@ -28,13 +28,15 @@ import com.saucelabs.rest.SauceTunnelFactory;
 import junit.framework.TestCase;
 
 /**
- * Unit test for simple App.
+ * Unit test for {@link SauceTunnel}.
  */
-public class AppTest extends TestCase
+public class SauceTunnelTest extends TestCase
 {
-    public void testDestroy() throws Exception {
+    public void testCreateAndDestroy() throws Exception {
         SauceTunnelFactory tunnelFactory = new SauceTunnelFactory();
         SauceTunnel t = tunnelFactory.create("www.kohsuke.org");
+        t.waitUntilRunning(30000);
+        assertTrue(t.isRunning());
         t.destroy();
     }
 
