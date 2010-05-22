@@ -23,6 +23,7 @@
  */
 package com.saucelabs.rest;
 
+import com.trilead.ssh2.Connection;
 import sun.misc.BASE64Encoder;
 
 import java.io.File;
@@ -132,8 +133,15 @@ public class Credential {
         // set the credential
         String userpassword = username + ":" + key;
         con.setRequestProperty("Authorization", "Basic " + new BASE64Encoder().encode(userpassword.getBytes()));
-        
+
         return new Call(con);
+    }
+
+    /**
+     * Authenticates the specified SSH connection with the credential.
+     */
+    void authenticate(Connection con) throws IOException {
+        con.authenticateWithPassword(username,key);
     }
 
     /**
@@ -141,7 +149,7 @@ public class Credential {
      *
      * <p>
      * This common convention allows all the tools that interact with Sauce OnDemand REST API
-     * to use the single credential, thereby simplifying the user configuration. 
+     * to use the single credential, thereby simplifying the user configuration.
      */
     public static File getDefaultCredentialFile() {
         return new File(new File(System.getProperty("user.home")),".sauce-ondemand");

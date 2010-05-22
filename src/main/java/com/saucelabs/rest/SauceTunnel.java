@@ -23,12 +23,21 @@
  */
 package com.saucelabs.rest;
 
+import com.trilead.ssh2.Connection;
+
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 /**
+ * Represents a sauce tunnel server on the cloud.
+ *
+ * <p>
+ * This object internally holds the status information that it retrieved from the server,
+ * and getter methods will work against this state information. To obtain the up-to-date
+ * status information from the server, use the {@link #refresh()} method. 
+ *
  * @author Kohsuke Kawaguchi
  */
 public final class SauceTunnel {
@@ -38,6 +47,10 @@ public final class SauceTunnel {
      * The status information of this tunnel, if it's already obtained. Can be null.
      */
     private StatusResponse status;
+    /**
+     * SSH connection.
+     */
+    private Connection ssh;
 
     SauceTunnel(SauceTunnelFactory factory, String id) {
         this.factory = factory;
@@ -73,6 +86,13 @@ public final class SauceTunnel {
         long t = status().ShutDownTime;
         if (t==0)   return null;
         return new Date(t);
+    }
+
+    /**
+     * Gets the tunnel host name inside the Sauce OnDemand cloud.
+     */
+    public String getHost() throws IOException {
+        return status().Host;
     }
 
     /**
@@ -130,6 +150,27 @@ public final class SauceTunnel {
             refresh();
         return status;
     }
+
+    /**
+     * Establishes the remote-to-local port forwarding.
+     */
+    public synchronized void connect(int remotePort, String localHost, int localPort) throws IOException {
+        if (ssh==null) {
+            ssh = new Connection(getHost());
+            ssh.connect();
+        }
+        factory.credential.authenticate(ssh);
+        ssh.requestRemotePortForwarding("0.0.0.0",remotePort,localHost,localPort);
+    }
+
+    /**
+     * Cancels the remote-to-local port forwarding.
+     */
+    public synchronized void disconnect(int remotePort) throws IOException {
+        if (ssh!=null)
+            ssh.cancelRemotePortForwarding(remotePort);
+    }
+
 
     /**
      * Retrieves the up-to-date status information by contacting the server.

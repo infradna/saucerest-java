@@ -31,6 +31,16 @@ import java.util.List;
  * @author Kohsuke Kawaguchi
  */
 class StatusResponse {
+    /*
+        Response looks like this:
+
+        {"Status": "running", "CreationTime": 1274488369, "ModificationTime": 1274488401, "Host": "maki201.miso.saucelabs.com",
+            "LaunchTime": 1274488375, "Provider": "sauce", "Owner": "kohsuke", "_id": "233b5b2249a1ec135cd08a0ba33e14ec",
+            "Type": "tunnel", "id": "233b5b2249a1ec135cd08a0ba33e14ec", "DomainNames": ["www.kohsuke.org"]},
+        {"Status": "halting", "ShutDownTime": 1274487617, "CreationTime": 1274487616, "ModificationTime": 1274488572,
+            "Owner": "kohsuke", "_id": "4491c98015e61627f3871999d315ee1a", "Type": "tunnel",
+            "id": "4491c98015e61627f3871999d315ee1a", "UserShutDown": true, "DomainNames": ["www.kohsuke.org"]}
+     */
     String Status;
     long ShutDownTime;
     long CreationTime;
@@ -38,6 +48,7 @@ class StatusResponse {
     String Owner;
     String id;
     String Type;
+    String Host;
     Boolean UserShutDown;
     List<String> DomainNames;
 }
