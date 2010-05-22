@@ -21,32 +21,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.saucelabs;
+package com.saucelabs.rest;
 
-import com.saucelabs.rest.SauceTunnel;
-import com.saucelabs.rest.SauceTunnelFactory;
-import junit.framework.TestCase;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import static java.util.Arrays.asList;
 
 /**
- * Unit test for simple App.
+ * JSON object for creating a new tunnel.
+ *
+ * @author Kohsuke Kawaguchi
  */
-public class AppTest extends TestCase
-{
-    public void testDestroy() throws Exception {
-        SauceTunnelFactory tunnelFactory = new SauceTunnelFactory();
-        SauceTunnel t = tunnelFactory.create("www.kohsuke.org");
-        t.destroy();
+class CreateTunnelRequest {
+    public List<String> DomainNames;
+
+    CreateTunnelRequest(Collection<String> domainNames) {
+        DomainNames = new ArrayList<String>(domainNames);
     }
 
-    public void testList() throws Exception {
-        SauceTunnelFactory tunnelFactory = new SauceTunnelFactory();
-        for (SauceTunnel t : tunnelFactory.list()) {
-            System.out.println("id="+t.getId());
-            System.out.println("create="+t.getCreationTime());
-            System.out.println("domains="+t.getDomainNames());
-            System.out.println("shutdown="+t.getShutDownTime());
-            System.out.println("running="+t.isRunning());
-            System.out.println();
-        }
+    CreateTunnelRequest(String... domainNames) {
+        this(asList(domainNames));
     }
 }

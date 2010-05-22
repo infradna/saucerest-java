@@ -21,32 +21,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.saucelabs;
+package com.saucelabs.rest;
 
-import com.saucelabs.rest.SauceTunnel;
-import com.saucelabs.rest.SauceTunnelFactory;
-import junit.framework.TestCase;
+import java.util.List;
 
 /**
- * Unit test for simple App.
+ * JSON object that represents the status of the tunnel.
+ *
+ * @author Kohsuke Kawaguchi
  */
-public class AppTest extends TestCase
-{
-    public void testDestroy() throws Exception {
-        SauceTunnelFactory tunnelFactory = new SauceTunnelFactory();
-        SauceTunnel t = tunnelFactory.create("www.kohsuke.org");
-        t.destroy();
-    }
-
-    public void testList() throws Exception {
-        SauceTunnelFactory tunnelFactory = new SauceTunnelFactory();
-        for (SauceTunnel t : tunnelFactory.list()) {
-            System.out.println("id="+t.getId());
-            System.out.println("create="+t.getCreationTime());
-            System.out.println("domains="+t.getDomainNames());
-            System.out.println("shutdown="+t.getShutDownTime());
-            System.out.println("running="+t.isRunning());
-            System.out.println();
-        }
-    }
+class StatusResponse {
+    String Status;
+    long ShutDownTime;
+    long CreationTime;
+    long ModificationTime;
+    String Owner;
+    String id;
+    String Type;
+    Boolean UserShutDown;
+    List<String> DomainNames;
 }
