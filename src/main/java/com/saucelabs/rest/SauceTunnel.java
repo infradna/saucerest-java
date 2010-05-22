@@ -136,7 +136,10 @@ public final class SauceTunnel {
     }
 
     /**
-     * Destroys this tunnel.
+     * Destroys the tunnel server. This will eliminate all the existing SSH tunnels to this server
+     * anywhere, not just ones from this JVM.
+     *
+     * This is not to be confused with {@link #disconnectAll()}.
      */
     public void destroy() throws IOException {
         factory.credential.call("tunnels/"+id).delete();
@@ -169,6 +172,19 @@ public final class SauceTunnel {
     public synchronized void disconnect(int remotePort) throws IOException {
         if (ssh!=null)
             ssh.cancelRemotePortForwarding(remotePort);
+    }
+
+    /**
+     * Shuts down all the SSH tunnels opened between the sauce tunnel server and
+     * this JVM.
+     *
+     * This is not to be confused with {@link #destroy()}.
+     */
+    public synchronized void disconnectAll() {
+        if (ssh!=null) {
+            ssh.close();
+            ssh = null;
+        }
     }
 
 
