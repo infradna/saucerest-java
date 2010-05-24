@@ -120,6 +120,7 @@ public class SauceTunnelTest extends TestCase
                             "http://test"+code+".org/");
                 selenium.start();
                 selenium.open("/");
+                // if the server really hit our Jetty, we should see the same title that includes the secret code.
                 assertEquals("test"+code,selenium.getTitle());
                 selenium.stop();
             } finally {
