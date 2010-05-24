@@ -43,11 +43,11 @@ public class Credential {
     /**
      * User name.
      */
-    final String username;
+    private final String username;
     /**
      * API access key, which looks like a GUID.
      */
-    final String key;
+    private final String key;
 
     /**
      * Creates a credential by specifying the username and the key directly.
@@ -91,6 +91,14 @@ public class Credential {
      */
     public Credential() throws IOException {
         this(getDefaultCredentialFile());
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getKey() {
+        return key;
     }
 
     /**
