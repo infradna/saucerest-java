@@ -131,7 +131,7 @@ public final class SauceTunnel {
      */
     public void waitUntilRunning(long timeout) throws IOException, InterruptedException {
         long start = System.currentTimeMillis();
-        while (!isRunning() && (timeout>=0 && start+timeout<System.currentTimeMillis()))
+        while (!isRunning() && (timeout>=0 && System.currentTimeMillis()<start+timeout))
             Thread.sleep(3000);
     }
 
