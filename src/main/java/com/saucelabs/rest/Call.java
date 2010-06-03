@@ -99,7 +99,7 @@ class Call {
     private IOException handleErrorResponse() throws IOException {
         ByteArrayOutputStream err = new ByteArrayOutputStream();
         IOUtils.copy(con.getErrorStream(),err);
-        return new IOException("Failed to create a tunnel. "+con.getResponseCode()+" "+con.getResponseMessage()+"\n"+err);
+        return new IOException("API called failed. "+con.getResponseCode()+" "+con.getResponseMessage()+"\n"+err);
     }
 
     private static final ObjectMapper MAPPER = new ObjectMapper();
