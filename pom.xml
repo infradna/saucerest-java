@@ -111,7 +111,7 @@
   </dependencies>
 
   <scm>
-    <connection>scm:git:git@github.com:infradna/sauce-rest-api.git</connection>
+    <connection>scm:git:git@github.com:infradna/saucerest-java.git</connection>
   </scm>
 
   <repositories>
