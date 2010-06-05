@@ -1,0 +1,39 @@
+What is this?
+
+  This library defines Java API to access Sauce on Demand REST API from Saucei Labs Inc, such as programmatic set up of the SSH tunnel.
+
+
+Sample Usage
+
+-------------------
+// create a new tunnel for the intranet host foo.corp.infradna.com
+// wait until the tunnel is ready
+SauceTunnelFactory tunnelFactory = new SauceTunnelFactory();
+SauceTunnel t = tunnelFactory.create("foo.corp.infradna.com");
+t.waitUntilRunning(30000);
+assertTrue(t.isRunning());
+
+// reverse port forwarding to localhost:80
+t.connect(80,"localhost",80);
+
+// do something with the tunnel
+...
+
+// destroy the tunnel (and all port forwardings that go with it)
+t.destroy();
+-------------------
+
+
+Credential
+
+  To avoid every application from inventing its way to store Sauce OnDemand credential, this library
+  defines a common convention so that applications using this library will look at the consistent location.
+  In this convention, the library looks at "~/.sauce-ondemand" property file, which should have
+  the following two values:
+
+-------------------
+username=kohsuke
+key=12345678-abcd-cdef-1234-1234567890ab
+-------------------
+
+  (Obviously, the calling application can still provide a credential in other means, too.)

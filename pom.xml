@@ -14,6 +14,10 @@
       <id>java.net-m2-repository</id>
       <url>java-net:/maven2-repository/trunk/repository/</url>
     </repository>
+    <site>
+      <id>infradna.com</id>
+      <url>scp://www-data@infradna.com/var/www/sauce-rest-api</url>
+    </site>
   </distributionManagement>
 
   <build>
@@ -109,4 +113,11 @@
   <scm>
     <connection>scm:git:git@github.com:infradna/sauce-rest-api.git</connection>
   </scm>
+
+  <repositories>
+    <repository>
+      <id>maven.dyndns.org</id>
+      <url>http://maven.dyndns.org/2/</url>
+    </repository>
+  </repositories>
 </project>
