@@ -56,8 +56,8 @@ public class SauceTunnelTest extends TestCase
     public void testCreateAndDestroy() throws Exception {
         SauceTunnelFactory tunnelFactory = new SauceTunnelFactory();
         SauceTunnel t = tunnelFactory.create("www.kohsuke.org");
-        t.waitUntilRunning(30000);
-        assertTrue(t.isRunning());
+        t.waitUntilRunning(90000);
+        assertTrue("tunnel id="+t.getId()+" isn't coming online", t.isRunning());
         t.destroy();
     }
 
