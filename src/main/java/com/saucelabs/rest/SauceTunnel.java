@@ -132,9 +132,11 @@ public final class SauceTunnel {
      */
     public void waitUntilRunning(long timeout) throws IOException, InterruptedException {
         long start = System.currentTimeMillis();
-        while (!isRunning() && (timeout>=0 && System.currentTimeMillis()<start+timeout)) {
-            Thread.sleep(3000);
+        while (timeout>=0 && System.currentTimeMillis()<start+timeout) {
             refresh();
+            Thread.sleep(3000); // this forced delay helps ensure that SSH server is functioning properly by the time we connect.
+            if (isRunning())
+                return; // success
         }
         LOGGER.fine("Tunnel didn't come online after timeout="+timeout+". Current status is "+status().Status);
     }
