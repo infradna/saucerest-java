@@ -101,8 +101,8 @@ public class SauceTunnelTest extends TestCase
             System.out.println("Starting a tunnel");
             SauceTunnelFactory tunnelFactory = new SauceTunnelFactory();
             SauceTunnel t = tunnelFactory.create("test"+code+".org");
-            t.waitUntilRunning(60000);
-            Thread.sleep(5000);
+            t.waitUntilRunning(90000);
+            assertTrue("tunnel id="+t.getId()+" isn't coming online", t.isRunning());
             t.connect(80,"localhost",connector.getLocalPort());
             System.out.println("tunnel established");
 

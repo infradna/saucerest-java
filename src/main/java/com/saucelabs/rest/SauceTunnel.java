@@ -165,6 +165,8 @@ public final class SauceTunnel {
      * Establishes the remote-to-local port forwarding.
      */
     public synchronized void connect(int remotePort, String localHost, int localPort) throws IOException {
+        if (getHost()==null || !isRunning())
+            throw new IllegalStateException("Tunnel id="+id+" is not connected yet");
         if (ssh==null) {
             LOGGER.fine("Connecting to "+getHost()+" via ssh. id="+id);
             ssh = new Connection(getHost());
