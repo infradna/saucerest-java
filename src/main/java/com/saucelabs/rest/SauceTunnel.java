@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Represents a sauce tunnel server on the cloud.
@@ -135,6 +136,7 @@ public final class SauceTunnel {
             Thread.sleep(3000);
             refresh();
         }
+        LOGGER.fine("Tunnel didn't come online after timeout="+timeout+". Current status is "+status().Status);
     }
 
     /**
@@ -144,6 +146,7 @@ public final class SauceTunnel {
      * This is not to be confused with {@link #disconnectAll()}.
      */
     public void destroy() throws IOException {
+        LOGGER.fine("Detroying tunnel id="+id);
         factory.credential.call("tunnels/"+id).delete();
     }
 
@@ -161,9 +164,11 @@ public final class SauceTunnel {
      */
     public synchronized void connect(int remotePort, String localHost, int localPort) throws IOException {
         if (ssh==null) {
+            LOGGER.fine("Connecting to "+getHost()+" via ssh. id="+id);
             ssh = new Connection(getHost());
             ssh.connect();
         }
+        LOGGER.fine("Authenticating");
         factory.credential.authenticate(ssh);
         ssh.requestRemotePortForwarding("0.0.0.0",remotePort,localHost,localPort);
     }
@@ -184,6 +189,7 @@ public final class SauceTunnel {
      */
     public synchronized void disconnectAll() {
         if (ssh!=null) {
+            LOGGER.fine("Disconnecting tunnel id="+id);
             ssh.close();
             ssh = null;
         }
@@ -197,7 +203,10 @@ public final class SauceTunnel {
      *      If the communication fails, or if the tunnel no longer exists.
      */
     public void refresh() throws IOException {
+        LOGGER.fine("Requesting the current tunnel status for "+id);
         status = factory.credential.call("tunnels/"+id).get(StatusResponse.class);
+        LOGGER.fine("Updated status is "+status);
     }
 
+    private static final Logger LOGGER = Logger.getLogger(SauceTunnel.class.getName());
 }

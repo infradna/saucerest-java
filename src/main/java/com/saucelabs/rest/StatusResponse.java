@@ -51,4 +51,9 @@ class StatusResponse {
     String Host;
     Boolean UserShutDown;
     List<String> DomainNames;
+
+    @Override
+    public String toString() {
+        return "Tunnel[id="+id+",host="+Host+",domainNames="+DomainNames+",status="+Status+"]";
+    }
 }

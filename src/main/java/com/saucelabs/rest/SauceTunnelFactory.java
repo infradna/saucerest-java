@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.logging.Logger;
 
 import static java.util.Arrays.asList;
 import static org.codehaus.jackson.annotate.JsonAutoDetect.Visibility.ANY;
@@ -64,6 +65,7 @@ public class SauceTunnelFactory {
     }
 
     public SauceTunnel create(Collection<String> domains) throws IOException {
+        LOGGER.fine("Requesting a new tunnel to "+domains);
         CreateTunnelResponse rsp = credential.call("tunnels")
                 .post(new CreateTunnelRequest(domains), CreateTunnelResponse.class);
         if (rsp.error!=null)
@@ -72,6 +74,7 @@ public class SauceTunnelFactory {
         if (!rsp.ok)
             throw new IOException("Failed to create a tunnel but for a no apparent reason. ???");
 
+        LOGGER.fine("Got a tunnel. ID="+rsp.id);
         return new SauceTunnel(this,rsp.id);
     }
 
@@ -96,4 +99,6 @@ public class SauceTunnelFactory {
         MAPPER.setVisibilityChecker(new Std(NONE, NONE, NONE, NONE, ANY));
         MAPPER.getDeserializationConfig().set(Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
+
+    private static final Logger LOGGER = Logger.getLogger(SauceTunnelFactory.class.getName());
 }
