@@ -3,7 +3,7 @@
   <groupId>com.saucelabs</groupId>
   <artifactId>sauce-rest-api</artifactId>
   <packaging>jar</packaging>
-  <version>1.1-SNAPSHOT</version>
+  <version>1.1</version>
   <name>sauce-rest-api</name>
   <url>http://saucelabs.com/</url>
   <description>Java API for Sauce OnDemand SSH tunnel</description>
