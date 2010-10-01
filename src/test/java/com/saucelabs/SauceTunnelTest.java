@@ -27,25 +27,17 @@ import com.saucelabs.rest.Credential;
 import com.saucelabs.rest.SauceTunnel;
 import com.saucelabs.rest.SauceTunnelFactory;
 import com.thoughtworks.selenium.DefaultSelenium;
-import com.thoughtworks.selenium.Selenium;
 import junit.framework.TestCase;
 import org.mortbay.jetty.Server;
 import org.mortbay.jetty.bio.SocketConnector;
-import org.mortbay.jetty.handler.ResourceHandler;
 import org.mortbay.jetty.servlet.ServletHandler;
 import org.mortbay.jetty.servlet.ServletHolder;
-import org.mortbay.jetty.servlet.ServletMapping;
-import org.mortbay.jetty.webapp.Configuration;
-import org.mortbay.jetty.webapp.WebAppContext;
-import org.mortbay.jetty.webapp.WebXmlConfiguration;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Random;
 
 /**
@@ -99,7 +91,8 @@ public class SauceTunnelTest extends TestCase
         try {
             // start a tunnel
             System.out.println("Starting a tunnel");
-            SauceTunnelFactory tunnelFactory = new SauceTunnelFactory();
+            Credential c = new Credential();
+            SauceTunnelFactory tunnelFactory = new SauceTunnelFactory(c);
             SauceTunnel t = tunnelFactory.create("test"+code+".org");
             t.waitUntilRunning(90000);
             assertTrue("tunnel id="+t.getId()+" isn't coming online", t.isRunning());
@@ -108,7 +101,6 @@ public class SauceTunnelTest extends TestCase
 
 
             try {
-                Credential c = new Credential();
                 DefaultSelenium selenium = new DefaultSelenium(
                             "saucelabs.com",
                             4444,
