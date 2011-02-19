@@ -120,13 +120,25 @@ public class Credential {
     }
 
     /**
+     * Gets the URL for a specific version of the REST API.
+     *
+     * @param version
+     *      The version (e.g. v1) or null
+     * @param suffix
+     *      The trailing API path portion like "tunnels".
+     */
+    URL getRestURL(String version, String suffix) throws IOException {
+        return new URL("https://saucelabs.com/rest/" + (version != null ? version + "/" : "") + username+"/"+suffix);
+    }
+
+    /**
      * Gets the URL of the REST API.
      *
      * @param suffix
      *      The trailing API path portion like "tunnels".
      */
     URL getRestURL(String suffix) throws IOException {
-        return new URL("https://saucelabs.com/rest/"+username+"/"+suffix);
+        return getRestURL(null, suffix);
     }
 
     /**
@@ -136,7 +148,19 @@ public class Credential {
      *      See the 'suffix' parameter of {@link #getRestURL(String)}
      */
     Call call(String suffix) throws IOException {
-        HttpURLConnection con = (HttpURLConnection) getRestURL(suffix).openConnection();
+        return call(null, suffix);
+    }
+
+    /**
+     * Connects to a specific version of the rest URL.
+     *
+     * @param version
+     *      The version (e.g. v1) or null
+     * @param suffix
+     *      See the 'suffix' parameter of {@link #getRestURL(String)}
+     */
+    Call call(String version, String suffix) throws IOException {
+        HttpURLConnection con = (HttpURLConnection) getRestURL(version, suffix).openConnection();
 
         // set the credential
         String userpassword = username + ":" + key;

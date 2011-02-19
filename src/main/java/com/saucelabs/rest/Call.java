@@ -53,7 +53,21 @@ class Call {
      * Makes an HTTP POST call where the request and response are both JSON.
      */
     public <T> T post(Object json, Class<T> responseType) throws IOException {
-        con.setRequestMethod("POST");
+        return putOrPost("POST", json, responseType);
+    }
+
+    /**
+     * Makes an HTTP PUT call where the request and response are both JSON.
+     */
+    public <T> T put(Object json, Class<T> responseType) throws IOException {
+        return putOrPost("PUT", json, responseType);
+    }
+
+    /**
+     * Makes an HTTP POST call where the request and response are both JSON.
+     */
+    private <T> T putOrPost(String method, Object json, Class<T> responseType) throws IOException {
+        con.setRequestMethod(method);
         con.setRequestProperty("Content-Type","application/json");
         con.setDoOutput(true);
         con.connect();
@@ -102,7 +116,7 @@ class Call {
         return new IOException("API called failed. "+con.getResponseCode()+" "+con.getResponseMessage()+"\n"+err);
     }
 
-    private static final ObjectMapper MAPPER = new ObjectMapper();
+    static final ObjectMapper MAPPER = new ObjectMapper();
 
     static {
         MAPPER.setVisibilityChecker(new Std(NONE, NONE, NONE, NONE, ANY));
