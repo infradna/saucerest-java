@@ -26,4 +26,8 @@ public class JobFactory {
         return credential.call("v1", "jobs/" + id).put(job, Job.class);
     }
 
+    public Job get(String id) throws IOException {
+        return credential.call("v1", "jobs/" + id).get(Job.class);
+    }
+
 }
