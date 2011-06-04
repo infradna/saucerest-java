@@ -3,7 +3,7 @@
   <groupId>com.saucelabs</groupId>
   <artifactId>sauce-rest-api</artifactId>
   <packaging>jar</packaging>
-  <version>1.4-SNAPSHOT</version>
+  <version>1.4</version>
   <name>sauce-rest-api</name>
   <url>http://saucelabs.com/</url>
   <description>Java API for Sauce OnDemand SSH tunnel</description>
@@ -72,6 +72,9 @@
   </licenses>
 
   <dependencies>
+
+    <!-- include dependency for Sauce Connect 2 library -->  
+
     <dependency>
       <groupId>org.jvnet.hudson</groupId>
       <artifactId>trilead-ssh2</artifactId>

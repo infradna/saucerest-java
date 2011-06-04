@@ -26,6 +26,18 @@ public class JobFactory {
         return credential.call("v1", "jobs/" + id).put(job, Job.class);
     }
 
+    /**
+     * Allow updates containing key/value pairs to be sent to Sauce.
+     *
+     * @param id Id of the job to update
+     * @param attributes Map of attributes to update
+     * @return {@link com.saucelabs.rest.Job} instance representing the response
+     * @throws IOException thrown if an error occurs during the REST request
+     */
+    public Job update(String id, Map<String,Object> attributes) throws IOException {
+        return credential.call("v1", "jobs/" + id).put(attributes, Job.class);
+    }
+
     public Job get(String id) throws IOException {
         return credential.call("v1", "jobs/" + id).get(Job.class);
     }
