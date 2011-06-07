@@ -50,6 +50,7 @@ public class SauceTunnelTest extends TestCase
         SauceTunnel t = tunnelFactory.create("www.kohsuke.org");
         t.waitUntilRunning(90000);
         assertTrue("tunnel id="+t.getId()+" isn't coming online", t.isRunning());
+        t.disconnectAll();
         t.destroy();
     }
 
@@ -62,6 +63,8 @@ public class SauceTunnelTest extends TestCase
             System.out.println("shutdown="+t.getShutDownTime());
             System.out.println("running="+t.isRunning());
             System.out.println();
+            t.disconnectAll();
+            t.destroy();
         }
     }
 
